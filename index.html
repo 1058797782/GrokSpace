@@ -3,839 +3,1061 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GrokSpace · AI 智能工作空间</title>
+  <title>星穹领域 · StarVeil</title>
   <style>
-    /* ===== Reset & Base ===== */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg-deep:    #07061a;
-      --bg-dark:    #0d0b2a;
-      --bg-panel:   #110f30;
-      --accent:     #7b5cf0;
-      --accent2:    #4fa8ff;
-      --accent3:    #33e8c0;
-      --text:       #e8e4f8;
-      --muted:      #8880aa;
-      --border:     rgba(123, 92, 240, 0.25);
-      --glass:      rgba(255,255,255,0.04);
-      --glass-h:    rgba(255,255,255,0.09);
-      --radius:     14px;
+      --bg:      #04030f;
+      --navy:    #08061e;
+      --accent:  #c084fc;
+      --pink:    #f472b6;
+      --blue:    #60a5fa;
+      --gold:    #fbbf24;
+      --text:    #f0eaff;
+      --muted:   #9990bb;
+      --border:  rgba(192, 132, 252, 0.22);
+      --glass:   rgba(255,255,255,0.04);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
-      background: var(--bg-deep);
+      font-family: 'PingFang SC', 'Hiragino Sans', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
 
-    /* ===== Top Social Bar ===== */
-    .social-bar {
-      background: #06051a;
-      border-bottom: 1px solid rgba(123,92,240,0.18);
-      padding: 6px 0;
+    /* ======= CANVAS STARS ======= */
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
     }
-    .social-bar-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 20px;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-    .social-bar-inner a:hover { color: var(--accent2); }
-    .social-icon { font-size: 1rem; vertical-align: middle; margin-right: 4px; }
 
-    /* ===== Navigation ===== */
+    /* ======= NAVBAR ======= */
     .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(10, 8, 30, 0.92);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-    }
-    .navbar-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
       display: flex;
       align-items: center;
-      height: 64px;
-      gap: 36px;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(4, 3, 15, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
     }
     .nav-logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--pink));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      white-space: nowrap;
+      margin-right: 56px;
       flex-shrink: 0;
     }
-    .nav-logo span { font-size: 1.4rem; -webkit-text-fill-color: initial; }
     .nav-links {
       display: flex;
-      align-items: center;
+      list-style: none;
       gap: 0;
       flex: 1;
-      list-style: none;
     }
-    .nav-links li a {
+    .nav-links a {
       display: block;
-      padding: 0 18px;
-      height: 64px;
-      line-height: 64px;
-      font-size: 0.92rem;
-      color: #bdb8d8;
-      letter-spacing: 0.5px;
+      padding: 0 20px;
+      height: 68px;
+      line-height: 68px;
+      font-size: 0.88rem;
+      letter-spacing: 1px;
+      color: #b8b0d8;
       transition: color 0.2s;
       position: relative;
     }
-    .nav-links li a::after {
+    .nav-links a::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 18px; right: 18px;
+      bottom: 0; left: 20px; right: 20px;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      background: linear-gradient(90deg, var(--accent), var(--pink));
       transform: scaleX(0);
       transition: transform 0.25s;
       border-radius: 2px;
     }
-    .nav-links li a:hover { color: #fff; }
-    .nav-links li a:hover::after,
-    .nav-links li.active a::after { transform: scaleX(1); }
-    .nav-links li.active a { color: #fff; }
-    .nav-cta {
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-right {
       margin-left: auto;
-      padding: 8px 22px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 30px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #fff !important;
-      white-space: nowrap;
-      transition: opacity 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
-    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-nav {
+      padding: 8px 24px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--accent), var(--pink));
+      color: #fff;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 0 20px rgba(192,132,252,0.4);
+    }
+    .btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
 
-    /* ===== Hero ===== */
+    /* ======= HERO ======= */
     .hero {
       position: relative;
-      min-height: 88vh;
+      z-index: 1;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       overflow: hidden;
-      background: radial-gradient(ellipse 80% 60% at 60% 40%, #1a0e50 0%, #07061a 70%);
     }
-    /* animated grid overlay */
-    .hero::before {
-      content: '';
+
+    /* big radial glow behind character */
+    .hero-glow {
       position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(123,92,240,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(123,92,240,0.06) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-    }
-    /* large glow orb */
-    .hero-orb {
-      position: absolute;
-      width: 700px; height: 700px;
-      right: -100px; top: -80px;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 680px;
+      height: 680px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(123,92,240,0.28) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(192,132,252,0.22) 0%, rgba(244,114,182,0.10) 40%, transparent 70%);
       pointer-events: none;
+      animation: pulse-glow 5s ease-in-out infinite;
     }
-    .hero-orb2 {
+    @keyframes pulse-glow {
+      0%,100% { opacity: 1; transform: translateY(-50%) scale(1); }
+      50%      { opacity: 0.7; transform: translateY(-50%) scale(1.06); }
+    }
+
+    .hero-glow2 {
       position: absolute;
-      width: 400px; height: 400px;
-      left: -60px; bottom: -60px;
+      left: -80px;
+      bottom: -80px;
+      width: 450px; height: 450px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(79,168,255,0.18) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%);
       pointer-events: none;
     }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
+
+    .hero-inner {
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 80px 24px;
+      padding: 120px 48px 80px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 560px;
       align-items: center;
-      gap: 60px;
+      gap: 40px;
       width: 100%;
     }
-    .hero-text .label {
-      display: inline-block;
-      background: rgba(123,92,240,0.18);
-      border: 1px solid rgba(123,92,240,0.4);
-      color: #c4b5fd;
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      padding: 4px 14px;
+
+    .hero-text { position: relative; z-index: 2; }
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(192,132,252,0.12);
+      border: 1px solid rgba(192,132,252,0.35);
+      color: #e0c4ff;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      padding: 5px 16px;
       border-radius: 30px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       text-transform: uppercase;
     }
-    .hero-text h1 {
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: 1px;
-      margin-bottom: 22px;
+    .hero-label-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: blink 1.4s ease-in-out infinite;
     }
-    .hero-text h1 .grad {
-      background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399);
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .hero-title .line1 { display: block; }
+    .hero-title .grad {
+      background: linear-gradient(100deg, #e0aaff, #f9a8d4, #fde68a);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      display: block;
     }
-    .hero-text p {
+    .hero-sub {
       font-size: 1.05rem;
-      color: #a09abf;
-      line-height: 1.8;
-      margin-bottom: 36px;
-      max-width: 480px;
+      color: #9b93be;
+      line-height: 1.85;
+      max-width: 420px;
+      margin-bottom: 40px;
     }
-    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-sub em {
+      font-style: normal;
+      color: #c4b5fd;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
     .btn-primary {
-      padding: 13px 32px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      padding: 14px 36px;
+      background: linear-gradient(90deg, var(--accent), var(--pink));
       border-radius: 40px;
       font-size: 0.95rem;
-      font-weight: 700;
+      font-weight: 800;
       color: #fff;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      box-shadow: 0 6px 30px rgba(192,132,252,0.5);
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 24px rgba(123,92,240,0.35);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123,92,240,0.5); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(192,132,252,0.65); }
     .btn-ghost {
-      padding: 12px 30px;
+      padding: 13px 34px;
       border: 1px solid var(--border);
       border-radius: 40px;
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--text);
+      color: #d0c8f0;
       background: var(--glass);
-      transition: background 0.2s, border-color 0.2s;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s, background 0.2s;
     }
-    .btn-ghost:hover { background: var(--glass-h); border-color: var(--accent); }
+    .btn-ghost:hover { border-color: var(--accent); background: rgba(192,132,252,0.08); }
 
-    /* hero character / visual panel */
-    .hero-visual {
-      position: relative;
+    /* hero stats */
+    .hero-stats {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      gap: 36px;
+      margin-top: 52px;
     }
-    .hero-card {
-      width: 340px;
-      height: 440px;
-      border-radius: 28px;
-      background: linear-gradient(160deg, #1a1250 0%, #0d0b2a 100%);
-      border: 1px solid rgba(123,92,240,0.35);
-      box-shadow: 0 0 80px rgba(123,92,240,0.2), inset 0 0 40px rgba(123,92,240,0.06);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-card::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 220px; height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(123,92,240,0.35) 0%, transparent 70%);
-    }
-    .hero-avatar {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #7b5cf0, #4fa8ff);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem;
-      box-shadow: 0 0 40px rgba(123,92,240,0.5);
-      position: relative; z-index: 1;
-    }
-    .hero-card-name {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #c4b5fd, #93c5fd);
+    .stat-val {
+      font-size: 1.7rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--blue));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      position: relative; z-index: 1;
     }
-    .hero-card-sub {
-      font-size: 0.82rem;
-      color: var(--muted);
-      letter-spacing: 1px;
-      position: relative; z-index: 1;
+    .stat-lbl { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    /* ======= ANIME CHARACTER SVG PANEL ======= */
+    .hero-char {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
     }
-    .hero-tags {
-      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-      position: relative; z-index: 1;
+    .char-frame {
+      position: relative;
+      width: 480px;
+      height: 560px;
     }
-    .hero-tag {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      background: rgba(123,92,240,0.18);
-      border: 1px solid rgba(123,92,240,0.3);
-      color: #c4b5fd;
-    }
-    /* floating badges */
-    .float-badge {
+    /* decorative ring */
+    .char-ring {
       position: absolute;
-      background: rgba(10,8,30,0.85);
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      border: 1px solid rgba(192,132,252,0.25);
+      box-shadow: 0 0 60px rgba(192,132,252,0.12), inset 0 0 60px rgba(192,132,252,0.06);
+    }
+    .char-ring2 {
+      position: absolute;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      border: 1px dashed rgba(244,114,182,0.18);
+      animation: spin 18s linear infinite;
+    }
+    @keyframes spin { to { transform: translateX(-50%) rotate(360deg); } }
+
+    /* The SVG character */
+    .char-svg {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 380px;
+      filter: drop-shadow(0 0 30px rgba(192,132,252,0.45)) drop-shadow(0 0 80px rgba(244,114,182,0.2));
+      animation: float-char 4s ease-in-out infinite;
+    }
+    @keyframes float-char {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(-14px); }
+    }
+
+    /* character name plate */
+    .char-plate {
+      position: absolute;
+      bottom: 30px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8,6,30,0.72);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 0.78rem;
-      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 24px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      white-space: nowrap;
+      z-index: 3;
+    }
+    .plate-name { font-size: 1.1rem; font-weight: 800; letter-spacing: 3px; color: #e0c4ff; }
+    .plate-sub  { font-size: 0.72rem; color: var(--muted); letter-spacing: 2px; margin-top: 2px; }
+
+    /* floating rune chips */
+    .rune {
+      position: absolute;
+      background: rgba(8,6,30,0.75);
+      border: 1px solid rgba(192,132,252,0.3);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 0.75rem;
+      color: #d4c4ff;
       backdrop-filter: blur(8px);
       white-space: nowrap;
       animation: floatY 3s ease-in-out infinite;
+      z-index: 3;
     }
-    .float-badge.b1 { top: 30px; left: -40px; animation-delay: 0s; }
-    .float-badge.b2 { bottom: 60px; right: -30px; animation-delay: 1.2s; }
-    .float-badge.b3 { top: 50%; left: -50px; animation-delay: 0.6s; }
-    .float-badge .dot {
-      display: inline-block; width: 7px; height: 7px;
-      border-radius: 50%; margin-right: 6px; vertical-align: middle;
-    }
-    .dot-green  { background: #34d399; box-shadow: 0 0 6px #34d399; }
-    .dot-purple { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
-    .dot-blue   { background: #60a5fa; box-shadow: 0 0 6px #60a5fa; }
+    .rune1 { top: 80px; left: 0;   animation-delay: 0s;   }
+    .rune2 { top: 160px; right: 0; animation-delay: 1s;   }
+    .rune3 { top: 260px; left: -10px; animation-delay: 1.8s; }
     @keyframes floatY {
       0%,100% { transform: translateY(0); }
       50%      { transform: translateY(-8px); }
     }
-
-    /* ===== Section Shared ===== */
-    section { padding: 80px 24px; }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
-    .section-label {
+    .rune-dot {
       display: inline-block;
-      font-size: 0.75rem;
-      letter-spacing: 3px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .rd-pink   { background:#f472b6; box-shadow:0 0 6px #f472b6; }
+    .rd-purple { background:#c084fc; box-shadow:0 0 6px #c084fc; }
+    .rd-blue   { background:#60a5fa; box-shadow:0 0 6px #60a5fa; }
+
+    /* ======= SECTION SHARED ======= */
+    section { padding: 80px 48px; position: relative; z-index: 1; }
+    .sec-inner { max-width: 1280px; margin: 0 auto; }
+    .sec-label {
+      font-size: 0.72rem;
+      letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-    .section-title {
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: 800;
-      margin-bottom: 14px;
-      line-height: 1.2;
+    .sec-title {
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
     }
-    .section-title .grad {
-      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+    .sec-title .g {
+      background: linear-gradient(90deg, var(--accent), var(--pink));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .section-desc {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.75;
-      max-width: 600px;
-      margin-bottom: 48px;
+    .sec-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.8; max-width: 560px; margin-bottom: 48px; }
+
+    /* ======= DIVIDER ======= */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(192,132,252,0.3), transparent);
+      margin: 0 48px;
     }
 
-    /* ===== Agents / Characters ===== */
-    .agents { background: var(--bg-dark); }
-    .agents-grid {
+    /* ======= CHARACTERS SECTION ======= */
+    .chars-section { background: rgba(8,6,24,0.9); }
+    .chars-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 24px;
     }
-    .agent-card {
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+    .char-card {
       border-radius: 20px;
-      padding: 32px 20px 24px;
-      text-align: center;
-      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      border: 1px solid rgba(192,132,252,0.18);
+      background: linear-gradient(170deg, rgba(25,15,55,0.9) 0%, rgba(8,6,24,0.95) 100%);
+      overflow: hidden;
       cursor: pointer;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .char-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent);
+      box-shadow: 0 16px 60px rgba(192,132,252,0.25);
+    }
+    .char-card-art {
+      height: 220px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
       position: relative;
       overflow: hidden;
     }
-    .agent-card::before {
-      content: '';
+    .card-glow {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(123,92,240,0.12), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s;
+      opacity: 0.5;
     }
-    .agent-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 12px 48px rgba(123,92,240,0.2); }
-    .agent-card:hover::before { opacity: 1; }
-    .agent-icon {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      margin: 0 auto 18px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem;
-      position: relative; z-index: 1;
+    .char-card-svg {
+      position: relative;
+      z-index: 1;
+      width: 140px;
+      filter: drop-shadow(0 4px 24px rgba(0,0,0,0.6));
+      transition: transform 0.3s;
     }
-    .agent-icon.c1 { background: linear-gradient(135deg, #7b5cf0, #a78bfa); box-shadow: 0 0 24px rgba(123,92,240,0.45); }
-    .agent-icon.c2 { background: linear-gradient(135deg, #2563eb, #60a5fa); box-shadow: 0 0 24px rgba(96,165,250,0.45); }
-    .agent-icon.c3 { background: linear-gradient(135deg, #0d9488, #34d399); box-shadow: 0 0 24px rgba(52,211,153,0.45); }
-    .agent-icon.c4 { background: linear-gradient(135deg, #d97706, #fbbf24); box-shadow: 0 0 24px rgba(251,191,36,0.45); }
-    .agent-icon.c5 { background: linear-gradient(135deg, #db2777, #f472b6); box-shadow: 0 0 24px rgba(244,114,182,0.45); }
-    .agent-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 1; }
-    .agent-en   { font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; position: relative; z-index: 1; }
-    .agent-desc { font-size: 0.83rem; color: #8880aa; line-height: 1.6; position: relative; z-index: 1; }
-    .agent-badge {
+    .char-card:hover .char-card-svg { transform: scale(1.05) translateY(-4px); }
+    .char-card-body { padding: 18px 20px 20px; }
+    .char-card-element {
       display: inline-block;
-      margin-top: 14px;
-      padding: 3px 12px;
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      padding: 3px 10px;
       border-radius: 20px;
-      font-size: 0.72rem;
-      border: 1px solid;
-      position: relative; z-index: 1;
+      margin-bottom: 8px;
     }
-    .badge-purple { color: #c4b5fd; border-color: rgba(196,181,253,0.35); background: rgba(123,92,240,0.12); }
-    .badge-blue   { color: #93c5fd; border-color: rgba(147,197,253,0.35); background: rgba(96,165,250,0.12); }
-    .badge-green  { color: #6ee7b7; border-color: rgba(110,231,183,0.35); background: rgba(52,211,153,0.12); }
-    .badge-yellow { color: #fde68a; border-color: rgba(253,230,138,0.35); background: rgba(251,191,36,0.12); }
-    .badge-pink   { color: #fbcfe8; border-color: rgba(251,207,232,0.35); background: rgba(244,114,182,0.12); }
+    .el-cryo   { background: rgba(96,165,250,0.15); color:#93c5fd; border:1px solid rgba(96,165,250,0.3); }
+    .el-pyro   { background: rgba(251,146,60,0.15);  color:#fdba74; border:1px solid rgba(251,146,60,0.3); }
+    .el-electro{ background: rgba(192,132,252,0.15); color:#d8b4fe; border:1px solid rgba(192,132,252,0.3); }
+    .el-anemo  { background: rgba(52,211,153,0.15);  color:#6ee7b7; border:1px solid rgba(52,211,153,0.3); }
+    .char-card-name { font-size: 1.15rem; font-weight: 800; letter-spacing: 2px; margin-bottom: 4px; }
+    .char-card-role { font-size: 0.78rem; color: var(--muted); margin-bottom: 12px; }
+    .char-stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; }
 
-    /* ===== Features Strip ===== */
-    .features-strip {
-      background: linear-gradient(90deg, #0d0b2a 0%, #110f30 50%, #0d0b2a 100%);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .features-strip .section-inner {
+    /* ======= WORLD SECTION ======= */
+    .world-section { background: var(--bg); }
+    .world-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0;
-    }
-    .strip-item {
-      padding: 40px 28px;
-      border-right: 1px solid var(--border);
-      text-align: center;
-      transition: background 0.2s;
-    }
-    .strip-item:last-child { border-right: none; }
-    .strip-item:hover { background: var(--glass); }
-    .strip-num {
-      font-size: 2.2rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
-    }
-    .strip-label { font-size: 0.85rem; color: var(--muted); }
-
-    /* ===== News ===== */
-    .news { background: var(--bg-deep); }
-    .news-layout {
-      display: grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 1fr 1fr;
       gap: 32px;
-      align-items: start;
+      align-items: center;
     }
-    .news-main-card {
-      border-radius: var(--radius);
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+    .world-visual {
+      border-radius: 24px;
       overflow: hidden;
-      transition: transform 0.25s;
-    }
-    .news-main-card:hover { transform: translateY(-4px); }
-    .news-main-thumb {
-      height: 240px;
-      background: linear-gradient(135deg, #1a1250 0%, #0f2248 100%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 5rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .news-main-body { padding: 24px 26px; }
-    .news-tag {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      background: rgba(123,92,240,0.18);
-      color: #c4b5fd;
-      border: 1px solid rgba(123,92,240,0.3);
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-    .news-main-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
-    .news-main-excerpt { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
-    .news-date { font-size: 0.78rem; color: #4f4a70; }
-    .news-list { display: flex; flex-direction: column; gap: 0; }
-    .news-item {
-      padding: 18px 0;
-      border-bottom: 1px solid rgba(123,92,240,0.12);
-      display: flex; gap: 14px; align-items: flex-start;
-      transition: background 0.2s;
-      cursor: pointer;
-    }
-    .news-item:last-child { border-bottom: none; }
-    .news-item:hover .news-item-title { color: var(--accent2); }
-    .news-item-icon {
-      flex-shrink: 0;
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      background: var(--glass);
       border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
+      background: linear-gradient(135deg, #0d0828 0%, #1a0e40 50%, #0d1e38 100%);
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
-    .news-item-body { flex: 1; }
-    .news-item-title { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; color: var(--text); transition: color 0.2s; }
-    .news-item-date  { font-size: 0.75rem; color: #4f4a70; }
-
-    /* ===== CTA Banner ===== */
-    .cta-banner {
-      background: linear-gradient(100deg, #1a0e50 0%, #0d2048 50%, #07061a 100%);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      text-align: center;
+    .world-svg-wrap {
+      position: relative;
+      z-index: 1;
     }
-    .cta-banner .section-inner { padding: 70px 24px; }
-    .cta-banner h2 { font-size: clamp(1.6rem, 3vw, 2.6rem); font-weight: 800; margin-bottom: 16px; }
-    .cta-banner p  { font-size: 1rem; color: var(--muted); max-width: 500px; margin: 0 auto 36px; line-height: 1.75; }
-    .cta-banner .btn-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .world-planet-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 55% 45%, rgba(192,132,252,0.2) 0%, rgba(96,165,250,0.1) 40%, transparent 70%);
+    }
+    .world-text .sec-desc { margin-bottom: 28px; }
+    .world-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+    .world-tag {
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.78rem;
+      background: rgba(192,132,252,0.1);
+      border: 1px solid rgba(192,132,252,0.25);
+      color: #c4b5fd;
+    }
 
-    /* ===== Footer ===== */
+    /* ======= FOOTER ======= */
     footer {
-      background: #05041a;
-      border-top: 1px solid rgba(123,92,240,0.15);
-      padding: 60px 24px 28px;
-    }
-    .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .footer-top {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 40px;
-      padding-bottom: 44px;
-      border-bottom: 1px solid rgba(123,92,240,0.12);
-    }
-    .footer-brand .logo-text {
-      font-size: 1.4rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
-    }
-    .footer-brand p { font-size: 0.85rem; color: var(--muted); line-height: 1.75; max-width: 240px; }
-    .footer-col h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 16px; color: #ddd8f4; letter-spacing: 0.5px; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 10px; }
-    .footer-col ul li a { font-size: 0.83rem; color: var(--muted); transition: color 0.2s; }
-    .footer-col ul li a:hover { color: var(--accent2); }
-    .footer-bottom {
-      padding-top: 24px;
+      background: rgba(4,3,10,0.98);
+      border-top: 1px solid rgba(192,132,252,0.12);
+      padding: 40px 48px;
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.78rem;
-      color: #3a3560;
+      gap: 20px;
     }
-    .footer-bottom a { color: #3a3560; }
-    .footer-bottom a:hover { color: var(--muted); }
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .footer-copy { font-size: 0.78rem; color: #4a4570; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 0.82rem; color: #6b6490; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
 
-    /* ===== Responsive ===== */
-    @media (max-width: 900px) {
-      .hero-content { grid-template-columns: 1fr; text-align: center; }
-      .hero-buttons { justify-content: center; }
-      .hero-text p { margin-left: auto; margin-right: auto; }
-      .hero-visual { display: none; }
-      .news-layout { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr 1fr; }
+    /* ======= RESPONSIVE ======= */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 120px 32px 60px; text-align: center; }
+      .hero-sub   { margin-left: auto; margin-right: auto; }
+      .hero-btns  { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-char  { display: none; }
+      .chars-grid { grid-template-columns: repeat(2,1fr); }
+      .world-grid { grid-template-columns: 1fr; }
+      .world-visual { height: 260px; }
     }
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
+      .navbar { padding: 0 20px; }
       .nav-links { display: none; }
-      .footer-top { grid-template-columns: 1fr; }
-      .strip-item { border-right: none; border-bottom: 1px solid var(--border); }
-      .strip-item:last-child { border-bottom: none; }
+      section { padding: 60px 20px; }
+      .divider { margin: 0 20px; }
+      .chars-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      footer { padding: 32px 20px; flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== Social Bar ===== -->
-  <div class="social-bar">
-    <div class="social-bar-inner">
-      <a href="https://github.com/1058797782/GrokSpace" target="_blank"><span class="social-icon">🐙</span>GitHub</a>
-      <a href="#"><span class="social-icon">🐦</span>Twitter</a>
-      <a href="#"><span class="social-icon">💬</span>Discord</a>
-      <a href="#"><span class="social-icon">📺</span>哔哩哔哩</a>
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="nav-logo">★ StarVeil</div>
+  <ul class="nav-links">
+    <li><a href="#">首页</a></li>
+    <li><a href="#chars">角色</a></li>
+    <li><a href="#world">世界观</a></li>
+    <li><a href="#">情报</a></li>
+    <li><a href="#">社区</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="btn-nav" href="#">立即出征</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-inner">
+    <!-- text -->
+    <div class="hero-text">
+      <div class="hero-label">
+        <span class="hero-label-dot"></span>
+        NEW SEASON · 「星穹之夜」
+      </div>
+      <h1 class="hero-title">
+        <span class="line1">跨越星河</span>
+        <span class="grad">与你同行</span>
+      </h1>
+      <p class="hero-sub">
+        踏上充满<em>魔法</em>与<em>奇迹</em>的旅途，<br>
+        与来自异界的少女们并肩作战，<br>
+        书写属于你的星辰传说。
+      </p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="#">✦ 开始冒险</a>
+        <a class="btn-ghost"   href="#">查看PV</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-val">120+</div>
+          <div class="stat-lbl">专属角色</div>
+        </div>
+        <div>
+          <div class="stat-val">8000万</div>
+          <div class="stat-lbl">全球旅行者</div>
+        </div>
+        <div>
+          <div class="stat-val">50+</div>
+          <div class="stat-lbl">探索区域</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- character -->
+    <div class="hero-char">
+      <div class="char-frame">
+        <div class="char-ring"></div>
+        <div class="char-ring2"></div>
+
+        <!-- floating rune badges -->
+        <div class="rune rune1"><span class="rune-dot rd-pink"></span>冰属性 · Cryo</div>
+        <div class="rune rune2"><span class="rune-dot rd-purple"></span>五星 · SSR</div>
+        <div class="rune rune3"><span class="rune-dot rd-blue"></span>限定角色</div>
+
+        <!-- Inline SVG anime girl character -->
+        <svg class="char-svg" viewBox="0 0 300 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- hair back -->
+          <ellipse cx="150" cy="100" rx="68" ry="80" fill="#1a0a3a"/>
+          <path d="M82 120 Q60 200 70 320 Q80 380 90 400" stroke="#1a0a3a" stroke-width="28" stroke-linecap="round" fill="none"/>
+          <path d="M218 120 Q240 200 230 320 Q220 380 210 400" stroke="#1a0a3a" stroke-width="28" stroke-linecap="round" fill="none"/>
+          <!-- hair long strands -->
+          <path d="M95 180 Q75 260 80 360 Q85 420 82 460" stroke="#2a0e52" stroke-width="20" stroke-linecap="round" fill="none"/>
+          <path d="M205 180 Q225 260 220 360 Q215 420 218 460" stroke="#2a0e52" stroke-width="20" stroke-linecap="round" fill="none"/>
+
+          <!-- neck -->
+          <rect x="138" y="168" width="24" height="32" rx="8" fill="#f5c8b0"/>
+
+          <!-- head -->
+          <ellipse cx="150" cy="120" rx="58" ry="60" fill="#f7d0b8"/>
+
+          <!-- ears -->
+          <ellipse cx="94"  cy="122" rx="10" ry="13" fill="#f5c8b0"/>
+          <ellipse cx="206" cy="122" rx="10" ry="13" fill="#f5c8b0"/>
+
+          <!-- hair front / bangs -->
+          <path d="M92 85 Q100 55 150 50 Q200 55 208 85 Q200 70 150 68 Q100 70 92 85Z" fill="#251048"/>
+          <path d="M92 85 Q88 100 95 115 Q98 90 105 80Z" fill="#251048"/>
+          <path d="M208 85 Q212 100 205 115 Q202 90 195 80Z" fill="#251048"/>
+          <path d="M110 68 Q118 90 116 108" stroke="#251048" stroke-width="12" stroke-linecap="round" fill="none"/>
+          <path d="M150 64 Q150 86 148 104" stroke="#251048" stroke-width="10" stroke-linecap="round" fill="none"/>
+          <path d="M190 68 Q182 90 184 108" stroke="#251048" stroke-width="12" stroke-linecap="round" fill="none"/>
+
+          <!-- hair ornament -->
+          <circle cx="150" cy="54" r="10" fill="#c084fc"/>
+          <circle cx="150" cy="54" r="6"  fill="#e9d5ff"/>
+          <line x1="140" y1="54" x2="130" y2="48" stroke="#c084fc" stroke-width="2"/>
+          <line x1="160" y1="54" x2="170" y2="48" stroke="#c084fc" stroke-width="2"/>
+          <circle cx="130" cy="46" r="3" fill="#f472b6"/>
+          <circle cx="170" cy="46" r="3" fill="#f472b6"/>
+
+          <!-- eyes left -->
+          <ellipse cx="128" cy="125" rx="14" ry="16" fill="white"/>
+          <ellipse cx="128" cy="127" rx="10" ry="12" fill="#6366f1"/>
+          <ellipse cx="128" cy="127" rx="6"  ry="8"  fill="#1e1b4b"/>
+          <ellipse cx="132" cy="123" rx="3"  ry="3"  fill="white"/>
+          <ellipse cx="126" cy="130" rx="1.5" ry="1.5" fill="white" opacity="0.7"/>
+          <!-- eyelashes left -->
+          <path d="M114 118 Q120 112 128 112" stroke="#1a1060" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M142 118 Q136 112 128 112" stroke="#1a1060" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+          <!-- eyes right -->
+          <ellipse cx="172" cy="125" rx="14" ry="16" fill="white"/>
+          <ellipse cx="172" cy="127" rx="10" ry="12" fill="#6366f1"/>
+          <ellipse cx="172" cy="127" rx="6"  ry="8"  fill="#1e1b4b"/>
+          <ellipse cx="176" cy="123" rx="3"  ry="3"  fill="white"/>
+          <ellipse cx="170" cy="130" rx="1.5" ry="1.5" fill="white" opacity="0.7"/>
+          <!-- eyelashes right -->
+          <path d="M158 118 Q164 112 172 112" stroke="#1a1060" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M186 118 Q180 112 172 112" stroke="#1a1060" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+          <!-- eyebrows -->
+          <path d="M114 108 Q128 102 142 108" stroke="#251048" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <path d="M158 108 Q172 102 186 108" stroke="#251048" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+          <!-- blush -->
+          <ellipse cx="108" cy="140" rx="12" ry="6" fill="#f9a8d4" opacity="0.35"/>
+          <ellipse cx="192" cy="140" rx="12" ry="6" fill="#f9a8d4" opacity="0.35"/>
+
+          <!-- nose + mouth -->
+          <path d="M148 150 Q150 154 152 150" stroke="#e8a090" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <path d="M140 162 Q150 170 160 162" stroke="#e8806a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+          <!-- body / outfit -->
+          <!-- torso dress - dark with gradient feel -->
+          <path d="M110 196 Q95 220 90 280 Q88 320 92 360 L208 360 Q212 320 210 280 Q205 220 190 196 Q175 188 150 186 Q125 188 110 196Z" fill="#1e0a4a"/>
+          <!-- dress neckline decoration -->
+          <path d="M130 196 Q150 208 170 196" stroke="#c084fc" stroke-width="2" fill="none"/>
+          <!-- dress front panel -->
+          <path d="M130 200 Q150 212 170 200 L175 280 Q162 290 150 292 Q138 290 125 280Z" fill="#2d1060" opacity="0.8"/>
+          <!-- belt/sash -->
+          <rect x="118" y="268" width="64" height="14" rx="7" fill="#7c3aed"/>
+          <rect x="144" y="266" width="12" height="18" rx="4" fill="#c084fc"/>
+          <!-- skirt -->
+          <path d="M92 358 Q80 390 75 430 Q78 435 82 432 Q100 400 120 380 L180 380 Q200 400 218 432 Q222 435 225 430 Q220 390 208 358Z" fill="#1e0a4a"/>
+          <path d="M92 358 Q110 375 150 378 Q190 375 208 358" stroke="#7c3aed" stroke-width="2" fill="none"/>
+          <!-- skirt inner lighter -->
+          <path d="M120 380 Q150 395 180 380 L185 430 Q150 445 115 430Z" fill="#2d1060" opacity="0.6"/>
+
+          <!-- sleeves -->
+          <path d="M110 196 Q88 210 78 240 Q74 260 82 278 Q92 270 100 252 Q106 230 112 216Z" fill="#1e0a4a"/>
+          <path d="M190 196 Q212 210 222 240 Q226 260 218 278 Q208 270 200 252 Q194 230 188 216Z" fill="#1e0a4a"/>
+          <!-- sleeve cuffs -->
+          <ellipse cx="82"  cy="278" rx="14" ry="7" fill="#7c3aed"/>
+          <ellipse cx="218" cy="278" rx="14" ry="7" fill="#7c3aed"/>
+
+          <!-- hands -->
+          <ellipse cx="78"  cy="284" rx="13" ry="10" fill="#f7d0b8"/>
+          <ellipse cx="222" cy="284" rx="13" ry="10" fill="#f7d0b8"/>
+
+          <!-- legs -->
+          <rect x="126" y="426" width="22" height="80" rx="11" fill="#f5c8b0"/>
+          <rect x="152" y="426" width="22" height="80" rx="11" fill="#f5c8b0"/>
+
+          <!-- thigh-high stockings -->
+          <rect x="126" y="450" width="22" height="58" rx="8" fill="#1a0a3a"/>
+          <rect x="152" y="450" width="22" height="58" rx="8" fill="#1a0a3a"/>
+          <!-- stocking tops -->
+          <rect x="126" y="448" width="22" height="8" rx="4" fill="#7c3aed"/>
+          <rect x="152" y="448" width="22" height="8" rx="4" fill="#7c3aed"/>
+
+          <!-- shoes -->
+          <path d="M122 502 Q120 516 118 524 Q124 528 132 526 Q138 512 148 504Z" fill="#0d0628"/>
+          <path d="M178 502 Q180 516 182 524 Q176 528 168 526 Q162 512 152 504Z" fill="#0d0628"/>
+          <!-- shoe heels -->
+          <rect x="118" y="520" width="10" height="8" rx="2" fill="#7c3aed"/>
+          <rect x="172" y="520" width="10" height="8" rx="2" fill="#7c3aed"/>
+
+          <!-- magic effect / ice crystals -->
+          <polygon points="60,300 68,320 52,320" fill="#bae6fd" opacity="0.6"/>
+          <polygon points="240,290 248,310 232,310" fill="#bae6fd" opacity="0.6"/>
+          <polygon points="50,330 56,345 44,345" fill="#e0f2fe" opacity="0.4"/>
+          <circle cx="64" cy="350" r="4" fill="#7dd3fc" opacity="0.5"/>
+          <circle cx="236" cy="340" r="5" fill="#7dd3fc" opacity="0.5"/>
+
+          <!-- sparkle stars -->
+          <path d="M44 260 L46 268 L54 270 L46 272 L44 280 L42 272 L34 270 L42 268Z" fill="#e0aaff" opacity="0.8"/>
+          <path d="M256 250 L258 256 L264 258 L258 260 L256 266 L254 260 L248 258 L254 256Z" fill="#f9a8d4" opacity="0.8"/>
+        </svg>
+
+        <!-- name plate -->
+        <div class="char-plate">
+          <div class="plate-name">凌 霜</div>
+          <div class="plate-sub">LING SHUANG · 冰之使徒</div>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- ===== Navigation ===== -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <div class="nav-logo"><span>🚀</span> GrokSpace</div>
-      <ul class="nav-links">
-        <li class="active"><a href="#">首页</a></li>
-        <li><a href="#agents">AI 代理</a></li>
-        <li><a href="#news">动态</a></li>
-        <li><a href="#features">功能</a></li>
-        <li><a href="https://github.com/1058797782/GrokSpace" target="_blank">GitHub</a></li>
-      </ul>
-      <a class="nav-cta" href="https://github.com/1058797782/GrokSpace" target="_blank">立即体验</a>
-    </div>
-  </nav>
+<div class="divider"></div>
 
-  <!-- ===== Hero ===== -->
-  <section class="hero">
-    <div class="hero-orb"></div>
-    <div class="hero-orb2"></div>
-    <div class="hero-content">
-      <div class="hero-text">
-        <div class="label">✦ AI POWERED WORKSPACE</div>
-        <h1>
-          <span class="grad">AI 智能</span><br/>
-          工作空间
-        </h1>
-        <p>
-          GrokSpace 是新一代 AI 协作平台，让你只需描述任务，
-          AI 代理即可自主完成代码编写、重构、安全审查与推送——
-          委托即完成，全程无需干预。
+<!-- CHARACTERS -->
+<section class="chars-section" id="chars">
+  <div class="sec-inner">
+    <div class="sec-label">✦ CHARACTERS</div>
+    <h2 class="sec-title">邂逅你的<span class="g">命中注定</span></h2>
+    <p class="sec-desc">每位角色都有独特的过去与力量，等待着与你的相遇。</p>
+    <div class="chars-grid">
+
+      <!-- Card 1 -->
+      <div class="char-card">
+        <div class="char-card-art" style="background: linear-gradient(170deg,#0d1e38 0%,#071428 100%);">
+          <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(96,165,250,0.3) 0%,transparent 65%);"></div>
+          <svg class="char-card-svg" viewBox="0 0 180 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="90" cy="55" rx="40" ry="44" fill="#f7d0b8"/>
+            <path d="M50 40 Q60 10 90 8 Q120 10 130 40 Q120 28 90 26 Q60 28 50 40Z" fill="#1a2a5e"/>
+            <path d="M50 40 Q46 60 52 75" stroke="#1a2a5e" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M130 40 Q134 60 128 75" stroke="#1a2a5e" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <ellipse cx="75" cy="62" rx="9" ry="11" fill="white"/>
+            <ellipse cx="75" cy="63" rx="6"  ry="8"  fill="#3b82f6"/>
+            <ellipse cx="75" cy="63" rx="3"  ry="4"  fill="#1e3a8a"/>
+            <ellipse cx="77" cy="60" rx="2"  ry="2"  fill="white"/>
+            <ellipse cx="105" cy="62" rx="9" ry="11" fill="white"/>
+            <ellipse cx="105" cy="63" rx="6" ry="8"  fill="#3b82f6"/>
+            <ellipse cx="105" cy="63" rx="3" ry="4"  fill="#1e3a8a"/>
+            <ellipse cx="107" cy="60" rx="2" ry="2"  fill="white"/>
+            <path d="M66 52 Q75 47 84 52" stroke="#1a2a5e" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M96 52 Q105 47 114 52" stroke="#1a2a5e" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <ellipse cx="63" cy="73" rx="8" ry="4" fill="#f9a8d4" opacity="0.4"/>
+            <ellipse cx="117" cy="73" rx="8" ry="4" fill="#f9a8d4" opacity="0.4"/>
+            <path d="M86 82 Q90 87 94 82" stroke="#e8806a" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <rect x="78" y="96" width="24" height="18" rx="8" fill="#f5c8b0"/>
+            <path d="M58 110 Q48 125 46 160 Q48 190 50 210 L130 210 Q132 190 134 160 Q132 125 122 110 Q110 104 90 102 Q70 104 58 110Z" fill="#1e3a8a"/>
+            <path d="M58 110 Q40 120 32 145 L48 170 Q52 148 60 130Z" fill="#1e3a8a"/>
+            <path d="M122 110 Q140 120 148 145 L132 170 Q128 148 120 130Z" fill="#1e3a8a"/>
+            <ellipse cx="34" cy="168" rx="10" ry="8" fill="#f7d0b8"/>
+            <ellipse cx="146" cy="168" rx="10" ry="8" fill="#f7d0b8"/>
+            <path d="M50 208 Q46 230 44 260 L58 260 Q66 230 74 210Z" fill="#1e3a8a"/>
+            <path d="M130 208 Q134 230 136 260 L122 260 Q114 230 106 210Z" fill="#1e3a8a"/>
+            <rect x="44" y="256" width="24" height="12" rx="4" fill="#1e3a8a" opacity="0.8"/>
+            <rect x="116" y="256" width="24" height="12" rx="4" fill="#1e3a8a" opacity="0.8"/>
+            <path d="M44,252 L35,245 L38,258Z" fill="#bae6fd" opacity="0.7"/>
+            <path d="M140,248 L149,241 L146,254Z" fill="#bae6fd" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-element el-cryo">❄ 冰</div>
+          <div class="char-card-name">凌霜</div>
+          <div class="char-card-role">冰之使徒 · 输出型</div>
+          <div class="char-stars">★★★★★</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="char-card">
+        <div class="char-card-art" style="background: linear-gradient(170deg,#2d0a0a 0%,#1a0606 100%);">
+          <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(251,146,60,0.3) 0%,transparent 65%);"></div>
+          <svg class="char-card-svg" viewBox="0 0 180 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="90" cy="55" rx="40" ry="44" fill="#fde7c8"/>
+            <path d="M50 38 Q62 5 90 4 Q118 5 130 38 Q118 22 90 20 Q62 22 50 38Z" fill="#7c1d1d"/>
+            <path d="M50 38 Q44 55 48 72" stroke="#7c1d1d" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M130 38 Q136 55 132 72" stroke="#7c1d1d" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <ellipse cx="75"  cy="62" rx="9" ry="11" fill="white"/>
+            <ellipse cx="75"  cy="63" rx="6" ry="8"  fill="#b91c1c"/>
+            <ellipse cx="75"  cy="63" rx="3" ry="4"  fill="#450a0a"/>
+            <ellipse cx="77"  cy="60" rx="2" ry="2"  fill="white"/>
+            <ellipse cx="105" cy="62" rx="9" ry="11" fill="white"/>
+            <ellipse cx="105" cy="63" rx="6" ry="8"  fill="#b91c1c"/>
+            <ellipse cx="105" cy="63" rx="3" ry="4"  fill="#450a0a"/>
+            <ellipse cx="107" cy="60" rx="2" ry="2"  fill="white"/>
+            <path d="M66 51 Q75 46 84 51" stroke="#7c1d1d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M96 51 Q105 46 114 51" stroke="#7c1d1d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <ellipse cx="63" cy="73" rx="8" ry="4" fill="#fca5a5" opacity="0.5"/>
+            <ellipse cx="117" cy="73" rx="8" ry="4" fill="#fca5a5" opacity="0.5"/>
+            <path d="M85 82 Q90 88 95 82" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <rect x="78" y="96" width="24" height="18" rx="8" fill="#fde7c8"/>
+            <path d="M58 110 Q44 126 42 162 Q44 192 48 212 L132 212 Q136 192 138 162 Q136 126 122 110 Q108 102 90 100 Q72 102 58 110Z" fill="#7c1d1d"/>
+            <rect x="80" y="148" width="20" height="10" rx="4" fill="#fbbf24"/>
+            <path d="M58 110 Q38 122 30 148 L46 172" stroke="#7c1d1d" stroke-width="20" stroke-linecap="round" fill="none"/>
+            <path d="M122 110 Q142 122 150 148 L134 172" stroke="#7c1d1d" stroke-width="20" stroke-linecap="round" fill="none"/>
+            <ellipse cx="32" cy="170" rx="10" ry="8" fill="#fde7c8"/>
+            <ellipse cx="148" cy="170" rx="10" ry="8" fill="#fde7c8"/>
+            <path d="M48 210 Q44 234 42 262 L58 262 Q68 232 76 212Z" fill="#7c1d1d"/>
+            <path d="M132 210 Q136 234 138 262 L122 262 Q112 232 104 212Z" fill="#7c1d1d"/>
+            <circle cx="36" cy="158" r="6" fill="#fb923c" opacity="0.6"/>
+            <circle cx="144" cy="155" r="5" fill="#fb923c" opacity="0.5"/>
+            <circle cx="38" cy="170" r="4" fill="#fbbf24" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-element el-pyro">🔥 火</div>
+          <div class="char-card-name">炎华</div>
+          <div class="char-card-role">烈焰骑士 · 近战型</div>
+          <div class="char-stars">★★★★★</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="char-card">
+        <div class="char-card-art" style="background: linear-gradient(170deg,#160a30 0%,#0a0620 100%);">
+          <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(192,132,252,0.3) 0%,transparent 65%);"></div>
+          <svg class="char-card-svg" viewBox="0 0 180 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="90" cy="55" rx="40" ry="44" fill="#f7d0b8"/>
+            <path d="M50 38 Q62 5 90 4 Q118 5 130 38 Q118 22 90 20 Q62 22 50 38Z" fill="#4c1d95"/>
+            <path d="M50 38 Q44 58 50 78" stroke="#4c1d95" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M130 38 Q136 58 130 78" stroke="#4c1d95" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M62 50 Q90 40 118 50 Q110 32 90 30 Q70 32 62 50Z" fill="#6d28d9"/>
+            <ellipse cx="75"  cy="63" rx="9" ry="11" fill="white"/>
+            <ellipse cx="75"  cy="64" rx="6" ry="8"  fill="#7c3aed"/>
+            <ellipse cx="75"  cy="64" rx="3" ry="4"  fill="#2e1065"/>
+            <ellipse cx="77"  cy="61" rx="2" ry="2"  fill="white"/>
+            <ellipse cx="105" cy="63" rx="9" ry="11" fill="white"/>
+            <ellipse cx="105" cy="64" rx="6" ry="8"  fill="#7c3aed"/>
+            <ellipse cx="105" cy="64" rx="3" ry="4"  fill="#2e1065"/>
+            <ellipse cx="107" cy="61" rx="2" ry="2"  fill="white"/>
+            <path d="M66 52 Q75 47 84 52" stroke="#4c1d95" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M96 52 Q105 47 114 52" stroke="#4c1d95" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <ellipse cx="63" cy="74" rx="8" ry="4" fill="#c4b5fd" opacity="0.4"/>
+            <ellipse cx="117" cy="74" rx="8" ry="4" fill="#c4b5fd" opacity="0.4"/>
+            <path d="M85 83 Q90 89 95 83" stroke="#d8a0d0" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <circle cx="90" cy="26" r="7" fill="#a855f7"/>
+            <circle cx="90" cy="26" r="4" fill="#e9d5ff"/>
+            <rect x="78" y="97" width="24" height="18" rx="8" fill="#f7d0b8"/>
+            <path d="M58 112 Q44 128 42 164 Q44 194 48 214 L132 214 Q136 194 138 164 Q136 128 122 112 Q108 104 90 102 Q72 104 58 112Z" fill="#4c1d95"/>
+            <path d="M70 112 Q90 130 110 112 L112 180 Q100 190 90 192 Q80 190 68 180Z" fill="#6d28d9" opacity="0.7"/>
+            <path d="M58 112 Q36 125 28 150 L44 174" stroke="#4c1d95" stroke-width="20" stroke-linecap="round" fill="none"/>
+            <path d="M122 112 Q144 125 152 150 L136 174" stroke="#4c1d95" stroke-width="20" stroke-linecap="round" fill="none"/>
+            <ellipse cx="30" cy="172" rx="10" ry="8" fill="#f7d0b8"/>
+            <ellipse cx="150" cy="172" rx="10" ry="8" fill="#f7d0b8"/>
+            <rect x="76" y="158" width="28" height="10" rx="5" fill="#a855f7"/>
+            <path d="M48 212 Q44 236 42 264 L58 264 Q68 234 76 214Z" fill="#4c1d95"/>
+            <path d="M132 212 Q136 236 138 264 L122 264 Q112 234 104 214Z" fill="#4c1d95"/>
+            <path d="M25 155 L18 148 L20 158Z" fill="#c084fc" opacity="0.6"/>
+            <path d="M155 152 L162 145 L160 155Z" fill="#c084fc" opacity="0.6"/>
+            <circle cx="22" cy="165" r="4" fill="#a855f7" opacity="0.5"/>
+            <circle cx="158" cy="162" r="3" fill="#a855f7" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-element el-electro">⚡ 雷</div>
+          <div class="char-card-name">紫苍</div>
+          <div class="char-card-role">雷电法师 · 辅助型</div>
+          <div class="char-stars">★★★★★</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="char-card">
+        <div class="char-card-art" style="background: linear-gradient(170deg,#042018 0%,#021410 100%);">
+          <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(52,211,153,0.3) 0%,transparent 65%);"></div>
+          <svg class="char-card-svg" viewBox="0 0 180 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="90" cy="55" rx="40" ry="44" fill="#fde7c8"/>
+            <path d="M50 40 Q62 8 90 6 Q118 8 130 40 Q118 24 90 22 Q62 24 50 40Z" fill="#064e3b"/>
+            <path d="M50 40 Q44 58 48 76" stroke="#064e3b" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M130 40 Q136 58 132 76" stroke="#064e3b" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M50 40 Q42 65 46 90 Q55 72 60 52Z" fill="#065f46"/>
+            <path d="M130 40 Q138 65 134 90 Q125 72 120 52Z" fill="#065f46"/>
+            <ellipse cx="75"  cy="62" rx="9" ry="11" fill="white"/>
+            <ellipse cx="75"  cy="63" rx="6" ry="8"  fill="#059669"/>
+            <ellipse cx="75"  cy="63" rx="3" ry="4"  fill="#022c22"/>
+            <ellipse cx="77"  cy="60" rx="2" ry="2"  fill="white"/>
+            <ellipse cx="105" cy="62" rx="9" ry="11" fill="white"/>
+            <ellipse cx="105" cy="63" rx="6" ry="8"  fill="#059669"/>
+            <ellipse cx="105" cy="63" rx="3" ry="4"  fill="#022c22"/>
+            <ellipse cx="107" cy="60" rx="2" ry="2"  fill="white"/>
+            <path d="M66 51 Q75 46 84 51" stroke="#064e3b" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M96 51 Q105 46 114 51" stroke="#064e3b" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <ellipse cx="63" cy="73" rx="8" ry="4" fill="#6ee7b7" opacity="0.4"/>
+            <ellipse cx="117" cy="73" rx="8" ry="4" fill="#6ee7b7" opacity="0.4"/>
+            <path d="M85 82 Q90 88 95 82" stroke="#34d399" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <rect x="78" y="97" width="24" height="18" rx="8" fill="#fde7c8"/>
+            <path d="M58 112 Q44 128 42 164 Q44 194 48 214 L132 214 Q136 194 138 164 Q136 128 122 112 Q108 104 90 102 Q72 104 58 112Z" fill="#065f46"/>
+            <path d="M58 112 Q36 124 28 150 L44 174" stroke="#065f46" stroke-width="20" stroke-linecap="round" fill="none"/>
+            <path d="M122 112 Q144 124 152 150 L136 174" stroke="#065f46" stroke-width="20" stroke-linecap="round" fill="none"/>
+            <ellipse cx="30" cy="172" rx="10" ry="8" fill="#fde7c8"/>
+            <ellipse cx="150" cy="172" rx="10" ry="8" fill="#fde7c8"/>
+            <path d="M68 112 L72 170 Q82 180 90 182 Q98 180 108 170 L112 112" fill="#059669" opacity="0.5"/>
+            <rect x="78" y="160" width="24" height="8" rx="4" fill="#34d399" opacity="0.8"/>
+            <path d="M48 212 Q44 236 42 264 L58 264 Q68 234 76 214Z" fill="#065f46"/>
+            <path d="M132 212 Q136 236 138 264 L122 264 Q112 234 104 214Z" fill="#065f46"/>
+            <circle cx="26" cy="158" r="5" fill="#34d399" opacity="0.5"/>
+            <circle cx="154" cy="155" r="4" fill="#34d399" opacity="0.5"/>
+            <path d="M20 148 L14 142 L16 150Z" fill="#6ee7b7" opacity="0.5"/>
+            <path d="M160 145 L166 139 L164 147Z" fill="#6ee7b7" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="char-card-body">
+          <div class="char-card-element el-anemo">🌿 风</div>
+          <div class="char-card-name">碧流</div>
+          <div class="char-card-role">翠风行者 · 治愈型</div>
+          <div class="char-stars">★★★★</div>
+        </div>
+      </div>
+
+    </div><!-- /chars-grid -->
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORLD -->
+<section class="world-section" id="world">
+  <div class="sec-inner">
+    <div class="world-grid">
+      <div class="world-visual">
+        <div class="world-planet-glow"></div>
+        <div class="world-svg-wrap">
+          <!-- planet / world SVG -->
+          <svg width="280" height="280" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="pg" cx="40%" cy="38%" r="60%">
+                <stop offset="0%"   stop-color="#6d28d9" stop-opacity="0.8"/>
+                <stop offset="45%"  stop-color="#1e1b4b" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#0a0618"/>
+              </radialGradient>
+              <radialGradient id="shine" cx="30%" cy="28%" r="55%">
+                <stop offset="0%"   stop-color="#e0aaff" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <!-- planet body -->
+            <circle cx="140" cy="140" r="110" fill="url(#pg)"/>
+            <circle cx="140" cy="140" r="110" fill="url(#shine)"/>
+            <!-- continent shapes -->
+            <path d="M100 90 Q120 80 145 95 Q160 105 155 125 Q148 140 130 138 Q112 135 105 118 Q98 105 100 90Z" fill="#312e81" opacity="0.7"/>
+            <path d="M150 130 Q168 118 185 130 Q196 145 188 162 Q178 175 162 170 Q148 162 148 148 Q146 138 150 130Z" fill="#1e1b4b" opacity="0.8"/>
+            <path d="M88 150 Q100 142 115 150 Q124 162 116 175 Q108 183 96 178 Q84 170 88 150Z" fill="#3730a3" opacity="0.6"/>
+            <!-- orbit ring -->
+            <ellipse cx="140" cy="140" rx="130" ry="32" stroke="#c084fc" stroke-width="1.5" fill="none" opacity="0.3" transform="rotate(-20 140 140)"/>
+            <ellipse cx="140" cy="140" rx="130" ry="32" stroke="#c084fc" stroke-width="0.5" fill="none" opacity="0.15" transform="rotate(-20 140 140)"/>
+            <!-- moons -->
+            <circle cx="50"  cy="88"  r="16" fill="#1e1b4b" stroke="#7c3aed" stroke-width="1"/>
+            <circle cx="50"  cy="88"  r="16" fill="url(#shine)"/>
+            <circle cx="232" cy="188" r="11" fill="#1e1b4b" stroke="#4f46e5" stroke-width="1"/>
+            <!-- stars around -->
+            <circle cx="20"  cy="140" r="1.5" fill="#e0aaff" opacity="0.9"/>
+            <circle cx="260" cy="100" r="1.5" fill="#e0aaff" opacity="0.9"/>
+            <circle cx="250" cy="50"  r="2"   fill="#f9a8d4" opacity="0.7"/>
+            <circle cx="30"  cy="220" r="2"   fill="#bae6fd" opacity="0.7"/>
+            <circle cx="220" cy="240" r="1.5" fill="#e0aaff" opacity="0.6"/>
+            <path d="M246 64 L248 70 L254 72 L248 74 L246 80 L244 74 L238 72 L244 70Z" fill="#fde68a" opacity="0.7"/>
+            <path d="M18 60 L20 65 L25 67 L20 69 L18 74 L16 69 L11 67 L16 65Z" fill="#c084fc" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="world-text">
+        <div class="sec-label">✦ LORE</div>
+        <h2 class="sec-title">探索<span class="g">无尽星界</span></h2>
+        <p class="sec-desc">
+          十二星域，各有其秘。<br>
+          魔法与科技交织，传说与现实交融。<br>
+          踏入「星穹领域」，每一步都是命运的印记。
         </p>
-        <div class="hero-buttons">
-          <a class="btn-primary" href="https://github.com/1058797782/GrokSpace" target="_blank">🚀 开始使用</a>
-          <a class="btn-ghost"   href="#agents">了解更多 →</a>
+        <div class="world-tags">
+          <span class="world-tag">✦ 星夜大陆</span>
+          <span class="world-tag">❄ 极光雪原</span>
+          <span class="world-tag">🌸 樱华帝都</span>
+          <span class="world-tag">⚡ 雷霆要塞</span>
+          <span class="world-tag">🌿 翡翠密林</span>
+          <span class="world-tag">🔥 熔岩裂谷</span>
         </div>
-      </div>
-      <div class="hero-visual">
-        <div class="float-badge b1"><span class="dot dot-green"></span>AI 代理运行中</div>
-        <div class="float-badge b3"><span class="dot dot-blue"></span>代码审查完成</div>
-        <div class="float-badge b2"><span class="dot dot-purple"></span>安全扫描通过</div>
-        <div class="hero-card">
-          <div class="hero-avatar">🤖</div>
-          <div class="hero-card-name">GrokSpace</div>
-          <div class="hero-card-sub">AI AGENT · CODE · SECURITY</div>
-          <div class="hero-tags">
-            <span class="hero-tag">代码开发</span>
-            <span class="hero-tag">智能搜索</span>
-            <span class="hero-tag">安全扫描</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Stats Strip ===== -->
-  <div class="features-strip">
-    <div class="section-inner">
-      <div class="strip-item">
-        <div class="strip-num">5+</div>
-        <div class="strip-label">AI 代理模块</div>
-      </div>
-      <div class="strip-item">
-        <div class="strip-num">24/7</div>
-        <div class="strip-label">全天候自动运行</div>
-      </div>
-      <div class="strip-item">
-        <div class="strip-num">100%</div>
-        <div class="strip-label">无人工干预</div>
-      </div>
-      <div class="strip-item">
-        <div class="strip-num">MIT</div>
-        <div class="strip-label">开源许可证</div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ===== Agents ===== -->
-  <section class="agents" id="agents">
-    <div class="section-inner">
-      <div class="section-label">AI 模块阵容</div>
-      <h2 class="section-title">遇见 <span class="grad">GrokSpace 智能代理</span></h2>
-      <p class="section-desc">多个专项 AI 代理各司其职，协同完成从需求理解到代码上线的全链路工作。</p>
-      <div class="agents-grid">
-        <div class="agent-card">
-          <div class="agent-icon c1">🤖</div>
-          <div class="agent-name">探索代理</div>
-          <div class="agent-en">Explore Agent</div>
-          <div class="agent-desc">快速分析代码库结构，深度理解逻辑关系，回答技术问题</div>
-          <span class="agent-badge badge-purple">代码理解</span>
-        </div>
-        <div class="agent-card">
-          <div class="agent-icon c2">💻</div>
-          <div class="agent-name">开发代理</div>
-          <div class="agent-en">Dev Agent</div>
-          <div class="agent-desc">读写文件、创建功能、重构逻辑、自动修复 Bug，全栈胜任</div>
-          <span class="agent-badge badge-blue">全栈开发</span>
-        </div>
-        <div class="agent-card">
-          <div class="agent-icon c3">🔒</div>
-          <div class="agent-name">安全代理</div>
-          <div class="agent-en">Security Agent</div>
-          <div class="agent-desc">内置 CodeQL 扫描，自动发现并修复代码安全漏洞</div>
-          <span class="agent-badge badge-green">安全扫描</span>
-        </div>
-        <div class="agent-card">
-          <div class="agent-icon c4">📦</div>
-          <div class="agent-name">仓库代理</div>
-          <div class="agent-en">Repo Agent</div>
-          <div class="agent-desc">查看 Issues / PR / CI 日志，自动提交、推送与创建 PR</div>
-          <span class="agent-badge badge-yellow">仓库管理</span>
-        </div>
-        <div class="agent-card">
-          <div class="agent-icon c5">🔍</div>
-          <div class="agent-name">搜索代理</div>
-          <div class="agent-en">Search Agent</div>
-          <div class="agent-desc">跨文件语义搜索，精准定位代码符号与逻辑依赖关系</div>
-          <span class="agent-badge badge-pink">智能搜索</span>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">★ StarVeil</div>
+  <div class="footer-links">
+    <a href="#">关于</a>
+    <a href="#">角色</a>
+    <a href="#">社区</a>
+    <a href="#">GitHub</a>
+  </div>
+  <div class="footer-copy">© 2026 StarVeil · 保留所有权利</div>
+</footer>
 
-  <!-- ===== News ===== -->
-  <section class="news" id="news">
-    <div class="section-inner">
-      <div class="section-label">最新动态</div>
-      <h2 class="section-title">GrokSpace <span class="grad">新闻 &amp; 更新</span></h2>
-      <p class="section-desc">持续迭代，持续进化——关注 GrokSpace 的最新功能发布与社区动态。</p>
-      <div class="news-layout">
-        <!-- Main feature -->
-        <div class="news-main-card">
-          <div class="news-main-thumb">🚀</div>
-          <div class="news-main-body">
-            <span class="news-tag">大版本发布</span>
-            <div class="news-main-title">GrokSpace v2.0 正式发布：多代理协同工作流全面升级</div>
-            <p class="news-main-excerpt">
-              全新多代理架构支持并行任务分发，代码审查速度提升 3 倍。
-              新增 PR 自动生成、依赖漏洞扫描与智能冲突解决等核心能力。
-            </p>
-            <div class="news-date">2026-04-01</div>
-          </div>
-        </div>
-        <!-- Side list -->
-        <div class="news-list">
-          <div class="news-item">
-            <div class="news-item-icon">🔒</div>
-            <div class="news-item-body">
-              <div class="news-item-title">CodeQL 安全扫描模块深度集成</div>
-              <div class="news-item-date">2026-03-25</div>
-            </div>
-          </div>
-          <div class="news-item">
-            <div class="news-item-icon">💬</div>
-            <div class="news-item-body">
-              <div class="news-item-title">支持 GitHub Issues / PR 全链路自动化管理</div>
-              <div class="news-item-date">2026-03-18</div>
-            </div>
-          </div>
-          <div class="news-item">
-            <div class="news-item-icon">🌐</div>
-            <div class="news-item-body">
-              <div class="news-item-title">多语言代码库支持：Python、Go、TypeScript、Java</div>
-              <div class="news-item-date">2026-03-10</div>
-            </div>
-          </div>
-          <div class="news-item">
-            <div class="news-item-icon">📦</div>
-            <div class="news-item-body">
-              <div class="news-item-title">依赖漏洞数据库接入 GitHub Advisory DB</div>
-              <div class="news-item-date">2026-03-05</div>
-            </div>
-          </div>
-          <div class="news-item">
-            <div class="news-item-icon">🤖</div>
-            <div class="news-item-body">
-              <div class="news-item-title">GrokSpace 开源社区正式启动</div>
-              <div class="news-item-date">2026-02-28</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<script>
+  // ── Starfield canvas ──
+  const canvas = document.getElementById('stars-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, stars = [];
 
-  <!-- ===== CTA Banner ===== -->
-  <section class="cta-banner" id="features">
-    <div class="section-inner">
-      <h2>准备好体验 <span style="background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">AI 驱动</span> 的开发未来了吗？</h2>
-      <p>只需描述你的需求，GrokSpace AI 代理将自动完成代码、审查、安全扫描与提交——全程无需干预。</p>
-      <div class="btn-row">
-        <a class="btn-primary" href="https://github.com/1058797782/GrokSpace" target="_blank">🚀 前往 GitHub</a>
-        <a class="btn-ghost"   href="#agents">查看 AI 模块</a>
-      </div>
-    </div>
-  </section>
+  function initStars() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    stars = Array.from({ length: 180 }, () => ({
+      x:   Math.random() * W,
+      y:   Math.random() * H,
+      r:   Math.random() * 1.6 + 0.2,
+      a:   Math.random(),
+      da:  (Math.random() * 0.4 + 0.1) * (Math.random() < 0.5 ? 1 : -1) * 0.005,
+      vx:  (Math.random() - 0.5) * 0.06,
+      vy:  (Math.random() - 0.5) * 0.06,
+      hue: Math.random() < 0.3 ? 280 : Math.random() < 0.5 ? 210 : 0,
+    }));
+  }
 
-  <!-- ===== Footer ===== -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="logo-text">🚀 GrokSpace</div>
-          <p>由 AI 驱动的新一代智能工作空间，让代码协作与自动化触手可及。</p>
-        </div>
-        <div class="footer-col">
-          <h4>产品</h4>
-          <ul>
-            <li><a href="#agents">AI 代理</a></li>
-            <li><a href="#features">功能特性</a></li>
-            <li><a href="#news">更新日志</a></li>
-            <li><a href="https://github.com/1058797782/GrokSpace" target="_blank">GitHub</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>开发者</h4>
-          <ul>
-            <li><a href="https://github.com/1058797782/GrokSpace" target="_blank">文档</a></li>
-            <li><a href="https://github.com/1058797782/GrokSpace/issues" target="_blank">Issues</a></li>
-            <li><a href="https://github.com/1058797782/GrokSpace/pulls" target="_blank">Pull Requests</a></li>
-            <li><a href="https://github.com/1058797782/GrokSpace/actions" target="_blank">CI / Actions</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>关于</h4>
-          <ul>
-            <li><a href="#">项目介绍</a></li>
-            <li><a href="#">许可证 (MIT)</a></li>
-            <li><a href="#">隐私政策</a></li>
-            <li><a href="#">联系我们</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 GrokSpace · MIT License · Powered by AI</span>
-        <span>
-          <a href="https://github.com/1058797782/GrokSpace" target="_blank">GitHub</a> ·
-          <a href="#">服务条款</a> ·
-          <a href="#">隐私政策</a>
-        </span>
-      </div>
-    </div>
-  </footer>
+  function drawStars() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.a += s.da;
+      if (s.a > 1 || s.a < 0) s.da *= -1;
+      s.x = (s.x + s.vx + W) % W;
+      s.y = (s.y + s.vy + H) % H;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.hue === 0
+        ? `rgba(255,255,255,${s.a})`
+        : `hsla(${s.hue},80%,85%,${s.a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
 
+  window.addEventListener('resize', initStars);
+  initStars();
+  drawStars();
+
+  // ── Navbar scroll effect ──
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('.navbar');
+    nav.style.background = window.scrollY > 20
+      ? 'rgba(4,3,15,0.92)'
+      : 'rgba(4,3,15,0.72)';
+  });
+</script>
 </body>
 </html>
