@@ -27,92 +27,109 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-glow2"></div>
+  <!-- Layered background -->
+  <div class="hero-bg"></div>
 
-  <div class="hero-inner">
-    <!-- text -->
-    <div class="hero-text">
-      <div class="hero-label">
-        <span class="hero-label-dot"></span>
-        NEW SEASON · 「星穹之夜」
-      </div>
-      <h1 class="hero-title">
-        <span class="line1">跨越星河</span>
-        <span class="grad">与你同行</span>
-      </h1>
-      <p class="hero-sub">
-        踏上充满<em>魔法</em>与<em>奇迹</em>的旅途，<br>
-        与来自异界的少女们并肩作战，<br>
-        书写属于你的星辰传说。
-      </p>
-      <div class="hero-btns">
-        <a class="btn-primary" href="#">✦ 开始冒险</a>
-        <a class="btn-ghost"   href="#">查看PV</a>
-      </div>
-      <div class="hero-stats">
-        <div>
-          <div class="stat-val">120+</div>
-          <div class="stat-lbl">专属角色</div>
-        </div>
-        <div>
-          <div class="stat-val">8000万</div>
-          <div class="stat-lbl">全球旅行者</div>
-        </div>
-        <div>
-          <div class="stat-val">50+</div>
-          <div class="stat-lbl">探索区域</div>
-        </div>
-      </div>
+  <!-- Decorative geometric elements -->
+  <div class="hero-deco" aria-hidden="true">
+    <span class="deco-diamond dd1"></span>
+    <span class="deco-diamond dd2"></span>
+    <span class="deco-diamond dd3"></span>
+    <span class="deco-ring dr1"></span>
+    <span class="deco-ring dr2"></span>
+    <span class="deco-spark">✦</span>
+    <span class="deco-spark" style="--sx:63%;--sy:14%;--ss:1.4;--sd:1.2s">✦</span>
+    <span class="deco-spark" style="--sx:11%;--sy:72%;--ss:0.9;--sd:0.6s">✦</span>
+    <span class="deco-spark" style="--sx:87%;--sy:34%;--ss:1.1;--sd:2s">✦</span>
+    <span class="deco-spark" style="--sx:34%;--sy:87%;--ss:0.8;--sd:0.3s">✦</span>
+  </div>
+
+  <!-- Character — natural, no frame/rings -->
+  <div class="hero-char-area">
+    <div class="hero-char-glow"></div>
+    <img class="hero-char-img"
+         src="https://raw.githubusercontent.com/ScobbleQ/HoYo-Assets/main/genshin/splash/10000046.png"
+         alt="胡桃 · 往生堂七十七代堂主" />
+    <div class="rune rune1"><span class="rune-dot rd-pink"></span>火属性 · Pyro</div>
+    <div class="rune rune2"><span class="rune-dot rd-purple"></span>五星 · SSR</div>
+    <div class="rune rune3"><span class="rune-dot rd-blue"></span>限定角色</div>
+    <button class="cv-play-btn hero-play-btn" aria-label="播放胡桃CV语音" title="播放胡桃CV语音" onclick="playCV(this, 'VO_ZH_Hu_Tao_Hello.ogg')">▶</button>
+    <div class="char-plate">
+      <div class="plate-name">胡 桃</div>
+      <div class="plate-sub">HU TAO · 往生堂七十七代堂主</div>
     </div>
+  </div>
 
-    <!-- character -->
-    <div class="hero-char">
-      <div class="char-frame">
-        <div class="char-ring"></div>
-        <div class="char-ring2"></div>
-
-        <!-- floating rune badges -->
-        <div class="rune rune1"><span class="rune-dot rd-pink"></span>火属性 · Pyro</div>
-        <div class="rune rune2"><span class="rune-dot rd-purple"></span>五星 · SSR</div>
-        <div class="rune rune3"><span class="rune-dot rd-blue"></span>限定角色</div>
-
-        <!-- Hu Tao character PNG (transparent background) -->
-        <img class="char-svg"
-             src="https://raw.githubusercontent.com/ScobbleQ/HoYo-Assets/main/genshin/splash/10000046.png"
-             alt="胡桃 · 往生堂七十七代堂主" />
-
-        <!-- CV voice play button -->
-        <button class="cv-play-btn hero-play-btn" aria-label="播放胡桃CV语音" title="播放胡桃CV语音" onclick="playCV(this, 'VO_ZH_Hu_Tao_Hello.ogg')">▶</button>
-
-        <!-- name plate -->
-        <div class="char-plate">
-          <div class="plate-name">胡 桃</div>
-          <div class="plate-sub">HU TAO · 往生堂七十七代堂主</div>
-        </div>
+  <!-- Text / CTA -->
+  <div class="hero-content">
+    <div class="hero-label">
+      <span class="hero-label-dot"></span>
+      NEW SEASON · 「星穹之夜」
+    </div>
+    <h1 class="hero-title">
+      <span class="line1">跨越星河</span>
+      <span class="grad">与你同行</span>
+    </h1>
+    <p class="hero-sub">
+      踏上充满<em>魔法</em>与<em>奇迹</em>的旅途，<br>
+      与来自异界的少女们并肩作战，<br>
+      书写属于你的星辰传说。
+    </p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#">✦ 开始冒险</a>
+      <a class="btn-ghost"   href="#">查看PV</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-val">120+</div>
+        <div class="stat-lbl">专属角色</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-val">8000万</div>
+        <div class="stat-lbl">全球旅行者</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-val">50+</div>
+        <div class="stat-lbl">探索区域</div>
       </div>
     </div>
   </div>
-</section>
 
-<div class="divider"></div>
+  <!-- Scroll hint -->
+  <div class="scroll-hint" aria-hidden="true">
+    <span class="scroll-line"></span>
+    <span class="scroll-text">SCROLL</span>
+  </div>
+</section>
 
 <!-- CHARACTERS -->
 <section class="chars-section" id="chars">
   <div class="sec-inner">
-    <div class="sec-label">✦ CHARACTERS</div>
-    <h2 class="sec-title">邂逅你的<span class="g">命中注定</span></h2>
-    <p class="sec-desc">每位角色都有独特的过去与力量，等待着与你的相遇。</p>
+    <!-- Centered section header with decorative bars -->
+    <div class="chars-header">
+      <div class="chars-label-row">
+        <span class="sec-deco-bar"></span>
+        <span class="sec-label">✦ CHARACTERS</span>
+        <span class="sec-deco-bar sec-deco-bar--rev"></span>
+      </div>
+      <h2 class="sec-title">邂逅你的<span class="g">命中注定</span></h2>
+      <p class="sec-desc">每位角色都有独特的过去与力量，等待着与你的相遇。</p>
+    </div>
+
+    <!-- Irregular grid: featured tall left + 2 short right + wide bottom-right -->
     <div class="chars-grid">
 
-      <!-- Card 1: 胡桃 Hu Tao - Pyro -->
-      <div class="char-card">
-        <div class="char-card-art" style="background: linear-gradient(170deg,#2d0a0a 0%,#1a0606 100%);">
+      <!-- Card 1: 胡桃 Hu Tao — featured (spans 2 rows) -->
+      <div class="char-card card-featured">
+        <div class="char-card-art" style="background:linear-gradient(170deg,#2d0a0a 0%,#1a0606 100%);">
           <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(251,146,60,0.35) 0%,transparent 65%);"></div>
           <img class="char-card-img"
                src="https://raw.githubusercontent.com/ScobbleQ/HoYo-Assets/main/genshin/splash/10000046.png"
                alt="胡桃" />
           <button class="cv-play-btn" aria-label="播放胡桃CV语音" title="播放胡桃CV语音" onclick="playCV(this,'VO_ZH_Hu_Tao_Hello.ogg')">▶</button>
+          <div class="card-corner-badge">FEATURED</div>
         </div>
         <div class="char-card-body">
           <div class="char-card-element el-pyro">🔥 火</div>
@@ -122,9 +139,9 @@
         </div>
       </div>
 
-      <!-- Card 2: 芭芭拉 Barbara - Hydro -->
+      <!-- Card 2: 芭芭拉 Barbara — Hydro -->
       <div class="char-card">
-        <div class="char-card-art" style="background: linear-gradient(170deg,#0a1e2d 0%,#061428 100%);">
+        <div class="char-card-art" style="background:linear-gradient(170deg,#0a1e2d 0%,#061428 100%);">
           <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(30,144,255,0.3) 0%,transparent 65%);"></div>
           <img class="char-card-img"
                src="https://raw.githubusercontent.com/ScobbleQ/HoYo-Assets/main/genshin/splash/10000014.png"
@@ -139,9 +156,9 @@
         </div>
       </div>
 
-      <!-- Card 3: 刻晴 Keqing - Electro -->
+      <!-- Card 3: 刻晴 Keqing — Electro -->
       <div class="char-card">
-        <div class="char-card-art" style="background: linear-gradient(170deg,#160a30 0%,#0a0620 100%);">
+        <div class="char-card-art" style="background:linear-gradient(170deg,#160a30 0%,#0a0620 100%);">
           <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(192,132,252,0.3) 0%,transparent 65%);"></div>
           <img class="char-card-img"
                src="https://raw.githubusercontent.com/ScobbleQ/HoYo-Assets/main/genshin/splash/10000042.png"
@@ -156,20 +173,21 @@
         </div>
       </div>
 
-      <!-- Card 4: 温迪 Venti - Anemo -->
-      <div class="char-card">
-        <div class="char-card-art" style="background: linear-gradient(170deg,#042018 0%,#021410 100%);">
-          <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(52,211,153,0.3) 0%,transparent 65%);"></div>
+      <!-- Card 4: 甘雨 Ganyu — Cryo (replaces Venti) — wide landscape card -->
+      <div class="char-card card-wide">
+        <div class="char-card-art" style="background:linear-gradient(170deg,#061428 0%,#04101e 100%);">
+          <div class="card-glow" style="background:radial-gradient(circle at 50% 80%,rgba(147,209,247,0.3) 0%,transparent 65%);"></div>
           <img class="char-card-img"
-               src="https://raw.githubusercontent.com/ScobbleQ/HoYo-Assets/main/genshin/splash/10000022.png"
-               alt="温迪" />
-          <button class="cv-play-btn" aria-label="播放温迪CV语音" title="播放温迪CV语音" onclick="playCV(this,'VO_ZH_Venti_Hello.ogg')">▶</button>
+               src="https://raw.githubusercontent.com/ScobbleQ/HoYo-Assets/main/genshin/splash/10000037.png"
+               alt="甘雨" />
+          <button class="cv-play-btn" aria-label="播放甘雨CV语音" title="播放甘雨CV语音" onclick="playCV(this,'VO_ZH_Ganyu_Hello.ogg')">▶</button>
         </div>
         <div class="char-card-body">
-          <div class="char-card-element el-anemo">🌿 风</div>
-          <div class="char-card-name">温迪</div>
-          <div class="char-card-role">蒙德的吟游诗人 · 辅助型</div>
+          <div class="char-card-element el-cryo">❄ 冰</div>
+          <div class="char-card-name">甘雨</div>
+          <div class="char-card-role">璃月七星的秘书 · 输出型</div>
           <div class="char-stars">★★★★★</div>
+          <p class="char-card-bio">半人半麒麟的神秘少女，勤勉工作的月神使者，掌握着超凡的冰霜之力。</p>
         </div>
       </div>
 
@@ -177,69 +195,49 @@
   </div>
 </section>
 
-<div class="divider"></div>
-
 <!-- WORLD -->
 <section class="world-section" id="world">
+  <div class="world-deco-bg" aria-hidden="true"></div>
   <div class="sec-inner">
-    <div class="world-grid">
-      <div class="world-visual">
-        <div class="world-planet-glow"></div>
-        <div class="world-svg-wrap">
-          <!-- planet / world SVG -->
-          <svg width="280" height="280" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="pg" cx="40%" cy="38%" r="60%">
-                <stop offset="0%"   stop-color="#6d28d9" stop-opacity="0.8"/>
-                <stop offset="45%"  stop-color="#1e1b4b" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#0a0618"/>
-              </radialGradient>
-              <radialGradient id="shine" cx="30%" cy="28%" r="55%">
-                <stop offset="0%"   stop-color="#e0aaff" stop-opacity="0.25"/>
-                <stop offset="100%" stop-color="transparent"/>
-              </radialGradient>
-            </defs>
-            <!-- planet body -->
-            <circle cx="140" cy="140" r="110" fill="url(#pg)"/>
-            <circle cx="140" cy="140" r="110" fill="url(#shine)"/>
-            <!-- continent shapes -->
-            <path d="M100 90 Q120 80 145 95 Q160 105 155 125 Q148 140 130 138 Q112 135 105 118 Q98 105 100 90Z" fill="#312e81" opacity="0.7"/>
-            <path d="M150 130 Q168 118 185 130 Q196 145 188 162 Q178 175 162 170 Q148 162 148 148 Q146 138 150 130Z" fill="#1e1b4b" opacity="0.8"/>
-            <path d="M88 150 Q100 142 115 150 Q124 162 116 175 Q108 183 96 178 Q84 170 88 150Z" fill="#3730a3" opacity="0.6"/>
-            <!-- orbit ring -->
-            <ellipse cx="140" cy="140" rx="130" ry="32" stroke="#c084fc" stroke-width="1.5" fill="none" opacity="0.3" transform="rotate(-20 140 140)"/>
-            <ellipse cx="140" cy="140" rx="130" ry="32" stroke="#c084fc" stroke-width="0.5" fill="none" opacity="0.15" transform="rotate(-20 140 140)"/>
-            <!-- moons -->
-            <circle cx="50"  cy="88"  r="16" fill="#1e1b4b" stroke="#7c3aed" stroke-width="1"/>
-            <circle cx="50"  cy="88"  r="16" fill="url(#shine)"/>
-            <circle cx="232" cy="188" r="11" fill="#1e1b4b" stroke="#4f46e5" stroke-width="1"/>
-            <!-- stars around -->
-            <circle cx="20"  cy="140" r="1.5" fill="#e0aaff" opacity="0.9"/>
-            <circle cx="260" cy="100" r="1.5" fill="#e0aaff" opacity="0.9"/>
-            <circle cx="250" cy="50"  r="2"   fill="#f9a8d4" opacity="0.7"/>
-            <circle cx="30"  cy="220" r="2"   fill="#bae6fd" opacity="0.7"/>
-            <circle cx="220" cy="240" r="1.5" fill="#e0aaff" opacity="0.6"/>
-            <path d="M246 64 L248 70 L254 72 L248 74 L246 80 L244 74 L238 72 L244 70Z" fill="#fde68a" opacity="0.7"/>
-            <path d="M18 60 L20 65 L25 67 L20 69 L18 74 L16 69 L11 67 L16 65Z" fill="#c084fc" opacity="0.6"/>
-          </svg>
-        </div>
+    <div class="world-header">
+      <div class="sec-label">✦ WORLD</div>
+      <h2 class="sec-title">探索<span class="g">无尽星界</span></h2>
+      <p class="sec-desc">
+        十二星域，各有其秘。<br>
+        魔法与科技交织，传说与现实交融。<br>
+        踏入「星穹领域」，每一步都是命运的印记。
+      </p>
+    </div>
+    <div class="world-areas">
+      <div class="area-card ac-purple">
+        <span class="area-icon-wrap">✦</span>
+        <div class="area-name">星夜大陆</div>
+        <div class="area-tag">主线地图</div>
       </div>
-      <div class="world-text">
-        <div class="sec-label">✦ LORE</div>
-        <h2 class="sec-title">探索<span class="g">无尽星界</span></h2>
-        <p class="sec-desc">
-          十二星域，各有其秘。<br>
-          魔法与科技交织，传说与现实交融。<br>
-          踏入「星穹领域」，每一步都是命运的印记。
-        </p>
-        <div class="world-tags">
-          <span class="world-tag">✦ 星夜大陆</span>
-          <span class="world-tag">❄ 极光雪原</span>
-          <span class="world-tag">🌸 樱华帝都</span>
-          <span class="world-tag">⚡ 雷霆要塞</span>
-          <span class="world-tag">🌿 翡翠密林</span>
-          <span class="world-tag">🔥 熔岩裂谷</span>
-        </div>
+      <div class="area-card ac-blue">
+        <span class="area-icon-wrap">❄</span>
+        <div class="area-name">极光雪原</div>
+        <div class="area-tag">冰雪秘境</div>
+      </div>
+      <div class="area-card ac-pink">
+        <span class="area-icon-wrap">🌸</span>
+        <div class="area-name">樱华帝都</div>
+        <div class="area-tag">东方圣地</div>
+      </div>
+      <div class="area-card ac-yellow">
+        <span class="area-icon-wrap">⚡</span>
+        <div class="area-name">雷霆要塞</div>
+        <div class="area-tag">战略据点</div>
+      </div>
+      <div class="area-card ac-green">
+        <span class="area-icon-wrap">🌿</span>
+        <div class="area-name">翡翠密林</div>
+        <div class="area-tag">自然秘境</div>
+      </div>
+      <div class="area-card ac-red">
+        <span class="area-icon-wrap">🔥</span>
+        <div class="area-name">熔岩裂谷</div>
+        <div class="area-tag">炎热之地</div>
       </div>
     </div>
   </div>
